@@ -10,10 +10,8 @@ from clip_blip import STYLES
 from video_analysis import extract_and_analyze_video
 from gemini_ai import API_KEY, get_gemini_instructions
 
-# --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="L&H AI Studio", layout="wide")
 
-# --- CUSTOM CSS ---
 st.markdown("""
     <style>
     .main { background-color: #0e1117; }
@@ -40,13 +38,11 @@ st.markdown("""
 
 
 def main():
-    # Logo Integration
     if os.path.exists("l&h_logo.png"):
         st.sidebar.image("l&h_logo.png")
 
     st.title("🎥AI Video Editor")
 
-    # --- STEP 1: SIDEBAR ASSETS ---
     with st.sidebar:
         st.header("1. Project Assets")
         uploaded_files = st.file_uploader("Upload internal system clips", type=['mp4', 'mov', 'avi'],
@@ -54,7 +50,6 @@ def main():
 
         if uploaded_files:
             for uploaded_file in uploaded_files:
-                # Internally saving to your system path defined in VIDEO_DIR
                 path = os.path.join(VIDEO_DIR, uploaded_file.name)
                 with open(path, "wb") as f:
                     f.write(uploaded_file.getbuffer())
@@ -68,19 +63,13 @@ def main():
         if st.button("Generate Base Video"):
             process_base_video(style_name, use_semantic)
 
-    # --- MAIN CONTENT AREA: PREVIEW & AI PANEL ---
     if os.path.exists(FINAL_VIDEO):
-        # UI split: Left for Internal View, Right for AI Control
         col_preview, col_panel = st.columns([2, 1])
 
         with col_preview:
-            # st.subheader("System Preview (Internal View)")
-            # This renders the file directly from your internal system path
             st.markdown('<div class="video-card">', unsafe_allow_html=True)
             st.video(FINAL_VIDEO)
             st.markdown('</div>', unsafe_allow_html=True)
-
-            # st.success(f"File location: {os.path.abspath(FINAL_VIDEO)}")
 
         with col_panel:
             st.subheader("AI Edits")
@@ -99,7 +88,7 @@ def main():
             st.divider()
 
             st.subheader("System Export")
-            # User downloads the video only after viewing the internal data
+         
             with open(FINAL_VIDEO, "rb") as f:
                 st.download_button(
                     label="Download Final Result",
@@ -112,7 +101,6 @@ def main():
         st.info("System Ready. Please upload clips and generate the base video to view data.")
 
 
-# --- CORE LOGIC FUNCTIONS ---
 
 def process_base_video(style_name, use_semantic):
     with st.status("🎬 Processing internal files...", expanded=True) as status:
@@ -163,7 +151,7 @@ def process_ai_edits(prompt):
         apply_ai_edits(FINAL_VIDEO, edits, ai_output, None)
 
         st.success("AI Edit Finished!")
-        # Renders the final AI video directly from the system path
+
         st.video(ai_output)
 
 
@@ -171,4 +159,5 @@ if __name__ == "__main__":
     os.makedirs(VIDEO_DIR, exist_ok=True)
     os.makedirs(TEMP_DIR, exist_ok=True)
     os.makedirs(OUTPUT_DIR, exist_ok=True)
+
     main()
