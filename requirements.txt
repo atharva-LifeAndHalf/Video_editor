@@ -1,0 +1,11 @@
+
+streamlit
+streamlit-component-lib-react-hooks
+google-generativeai
+python-dotenv
+torch
+torchvision
+numpy
+opencv-python-headless
+pillow
+requests
