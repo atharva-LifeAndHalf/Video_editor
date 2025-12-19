@@ -1,11 +1,21 @@
-
+# --- Framework & API ---
 streamlit
-streamlit-component-lib-react-hooks
 google-generativeai
 python-dotenv
+tenacity
+
+# --- Image & Video Core (GUI Enabled) ---
+# Note: Do NOT use opencv-python-headless if you need selectROI
+opencv-python
+numpy
+pillow
+
+# --- Machine Learning & Transformers ---
 torch
 torchvision
-numpy
-opencv-python-headless
-pillow
+transformers
+mediapipe
+
+# --- Utilities ---
 requests
+tqdm
